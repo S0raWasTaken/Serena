@@ -4,7 +4,7 @@
 </p>
 
 # Serena
-A Discord bot meant to be REALLY powerful on what it does
+A Discord bot meant to be REALLY powerful on what it does (currently WIP).
 
 ## About
 Serena aims to serve basic utility for server control and moderation.<br>
