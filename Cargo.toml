@@ -1,0 +1,31 @@
+[package]
+name = "serena"
+version = "0.1.0"
+edition = "2021"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[dependencies]
+clap = "3.0.1"
+dotenv = "0.15.0"
+reqwest = "0.11.8"
+
+[dependencies.serenity]
+version = "0.10.9"
+default-features = false
+features = ["client", "cache", "framework", "standard_framework", "gateway", "rustls_backend", "model", "unstable_discord_api"]
+
+[dependencies.tokio]
+version = "1.15.0"
+features = ["macros", "rt-multi-thread"]
+
+[dependencies.rustbreak]
+version = "2.0.0"
+features = ["yaml_enc"]
+
+[dependencies.serde]
+version = "1.0.133"
+features = ["derive"]

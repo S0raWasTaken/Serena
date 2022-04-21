@@ -1,0 +1,8 @@
+# Compiled files
+/target
+
+# Secrets, API keys etc
+.env
+
+# File databases
+*.yml 
