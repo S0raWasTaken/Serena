@@ -33,7 +33,7 @@ prefix
 Issues should be reported [here](https://github.com/S0raWasTaken/Threadripper-bot/issues)
 
 ## Adding Serena to your server
-Add serena by following [this link](https://discord.com/oauth2/authorize?client_id=927705546541387786&scope=bot&permissions=328527637630)
+Serena isn't ready for production yet
 
 ## Contributing
 Pull requests, issues and ideas are always welcome. Ideas should be sent in the [issues page](https://github.com/S0raWasTaken/Threadripper-bot/issues)
