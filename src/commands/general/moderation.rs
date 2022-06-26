@@ -4,6 +4,7 @@ use serenity::{
     model::channel::Message,
 };
 use serenity::utils::MessageBuilder;
+use serenity::framework::standard::Args;
 
 #[command]
 #[only_in(guilds)]
@@ -54,5 +55,31 @@ async fn ban(ctx: &Context, msg: &Message) -> CommandResult {
         } else {
             msg.reply(&ctx, "You should mention someone who you want to kick.").await?;
         }
+    Ok(())
+}
+
+#[command]
+#[only_in(guilds)]
+#[required_permissions("BAN_MEMBERS")]
+async fn unban(ctx: &Context, msg: &Message, mut arg: Args) -> CommandResult {
+    match arg.single_quoted::<String>() {
+        Ok(x) => {
+            let pog: u64 = match x.parse() {
+                Ok(x) => {
+                    x
+                }
+                Err(_) => {
+                    return Ok(())
+                }
+            };
+
+
+            msg.guild_id.unwrap().unban(&ctx.http, pog).await?;
+        }
+        Err(_err) => {
+            msg.reply(ctx, "An argument is required to run this command.").await?;
+            return Ok(())
+        }
+    };
     Ok(())
 }
