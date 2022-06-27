@@ -71,4 +71,17 @@ pub mod commands {
                     .short('s'),
             ])
     }
+
+    pub fn kick() -> Command<'static> {
+        Command::new("NAME: kick")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Kicks a member from the guild.")
+            .args([
+                Arg::new("@Mention")
+                .required(true)
+                .index(1)
+                .help("The member that may be kicked.")
+            ])
+    }
 }
