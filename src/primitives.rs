@@ -82,6 +82,49 @@ pub mod commands {
                 .required(true)
                 .index(1)
                 .help("The member that may be kicked.")
+              ])
+  }
+
+    pub fn clear() -> Command<'static> {
+        Command::new("NAME: clear")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Clears messages in current channel")
+            .args([
+                Arg::new("amount")
+                    .required(true)
+                    .help("The amount of messages to clear (<=100)")
+                    .index(1)
+                    .validator(|v|
+                        if v.parse::<u64>().is_ok() && v.parse::<u64>().unwrap() <= 1000 {
+                            Ok(())
+                        } else {
+                            Err("Amount must be <=1000".to_string())
+                        }
+                    ),
+
+                Arg::new("@mention/ID")
+                    .long("user")
+                    .short('u')
+                    .takes_value(true)
+                    .help("Specify a user to delete messages"),
+                Arg::new("from_message")
+                    .long("message")
+                    .short('m')
+                    .takes_value(true)
+                    .help("Specify a message to start from (non-inclusive)"),
+                Arg::new("after")
+                    .conflicts_with("before")
+                    .long("after")
+                    .short('a')
+                    .requires("from_message")
+                    .help("Selects messages before the starting point"),
+                Arg::new("before")
+                    .conflicts_with("after")
+                    .long("before")
+                    .short('b')
+                    .requires("from_message")
+                    .help("Default selection from starting message, this flag exists for logic purposes")
             ])
     }
 }

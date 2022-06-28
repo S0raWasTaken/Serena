@@ -1,6 +1,7 @@
 #![warn(clippy::pedantic)]
+
 use dotenv::dotenv;
-use groups::GENERAL_GROUP;
+use groups::{GENERAL_GROUP, UTIL_GROUP};
 use handler::Handler;
 use primitives::{ErrorBox, Prefixes, DEFAULT_PREFIX};
 use rustbreak::FileDatabase;
@@ -13,6 +14,9 @@ mod groups;
 mod handler;
 mod primitives;
 mod utils;
+
+#[cfg(test)]
+mod tests;
 
 #[tokio::main]
 async fn main() -> ErrorBox<()> {
@@ -61,7 +65,8 @@ async fn main() -> ErrorBox<()> {
                     })
                 })
         })
-        .group(&GENERAL_GROUP);
+        .group(&GENERAL_GROUP)
+        .group(&UTIL_GROUP);
 
     let mut client = Client::builder(&token)
         .event_handler(Handler)

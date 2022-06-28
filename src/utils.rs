@@ -44,3 +44,21 @@ macro_rules! exit {
         ::std::process::exit($exit_code);
     }};
 }
+
+#[macro_export]
+macro_rules! ensure {
+    ($($x:expr, $y:expr),* $(,)?) => {
+        $(
+            if !$x {
+                $crate::error!($y)
+            }
+        )*
+    }
+}
+
+#[macro_export]
+macro_rules! error {
+    ($x:expr) => {{
+        return Err($x.into());
+    }};
+}
