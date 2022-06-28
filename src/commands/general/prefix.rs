@@ -1,10 +1,4 @@
-use serenity::client::Context;
-use serenity::framework::standard::macros::command;
-use serenity::framework::standard::CommandResult;
-use serenity::model::channel::Message;
-
-use crate::primitives::{commands, Prefixes, ToClapCommand, ToCodeBlock, DEFAULT_PREFIX};
-use crate::utils::{get_prefix, handle_result};
+use super::*;
 
 #[command]
 #[only_in(guilds)]

@@ -27,7 +27,11 @@ pub trait ToClapCommand {
 
 impl ToClapCommand for String {
     fn to_clap_command(&self, prefix: String) -> Vec<String> {
-        self.replace(&prefix, "").trim().split(' ').map(ToString::to_string).collect()
+        self.replace(&prefix, "")
+            .trim()
+            .split(' ')
+            .map(ToString::to_string)
+            .collect()
     }
 }
 
@@ -64,7 +68,10 @@ pub mod commands {
                     .takes_value(true)
                     .index(1)
                     .help("The new prefix to swap for"),
-                Arg::new("show").help("Shows the current prefix").long("show").short('s'),
+                Arg::new("show")
+                    .help("Shows the current prefix")
+                    .long("show")
+                    .short('s'),
             ])
     }
 
@@ -73,10 +80,40 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Kicks a member from the guild.")
-            .args([Arg::new("@Mention")
-                .required(true)
-                .index(1)
-                .help("The member that may be kicked.")])
+            .args([
+                Arg::new("@mention/ID")
+                    .required(true)
+                    .index(1)
+                    .help("The user that may be kicked."),
+                Arg::new("reason")
+                    .required(false)
+                    .multiple_values(true)
+                    .index(2)
+                    .help("The reason for the kick."),
+            ])
+    }
+
+    pub fn ban() -> Command<'static> {
+        Command::new("NAME: ban")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Bans a member from the guild.")
+            .args([
+                Arg::new("@mention/ID")
+                    .required(true)
+                    .index(1)
+                    .help("The user that may be banned."),
+                Arg::new("reason")
+                    .index(2)
+                    .multiple_values(true)
+                    .help("The reason for the ban."),
+                Arg::new("delete-messages")
+                    .long("delete-messages")
+                    .short('d')
+                    .takes_value(true)
+                    .validator(|v| v.parse::<u8>().map_err(|_| "Not a valid number"))
+                    .help("Select a number of days to delete messages."),
+            ])
     }
 
     pub fn clear() -> Command<'static> {

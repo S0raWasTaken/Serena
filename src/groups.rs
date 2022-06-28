@@ -1,14 +1,19 @@
 use serenity::framework::standard::macros::group;
 
-use crate::commands::general::ping::PING_COMMAND;
-use crate::commands::general::prefix::PREFIX_COMMAND;
-use crate::commands::moderation::kick::KICK_COMMAND;
-use crate::commands::util::clear::CLEAR_COMMAND;
+use crate::commands::{
+    general::{ping::PING_COMMAND, prefix::PREFIX_COMMAND},
+    moderation::{ban::BAN_COMMAND, kick::KICK_COMMAND},
+    util::clear::CLEAR_COMMAND,
+};
 
 #[group]
-#[commands(ping, prefix, kick)]
+#[commands(ping, prefix)]
 struct General;
 
 #[group]
 #[commands(clear)]
 struct Util;
+
+#[group]
+#[commands(kick, ban)]
+struct Moderation;

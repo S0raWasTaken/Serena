@@ -1,16 +1,4 @@
-use std::time::Duration;
-
-use serenity::client::Context;
-use serenity::framework::standard::macros::command;
-use serenity::framework::standard::CommandResult;
-use serenity::model::channel::Message;
-use serenity::model::id::MessageId;
-use serenity::utils::parse_mention;
-use tokio::time::sleep;
-
-use crate::ensure;
-use crate::primitives::{commands, ErrorBox, ToClapCommand};
-use crate::utils::{get_prefix, handle_result};
+use super::*;
 
 #[command]
 #[only_in(guilds)]
@@ -52,7 +40,11 @@ async fn clear(ctx: &Context, msg: &Message) -> CommandResult {
 
             if let Some(user) = matches.value_of("@mention/ID") {
                 let mention = parse_mention(user).ok_or("Invalid mention or user ID")?;
-                messages = messages.iter().filter(|m| m.author.id == mention).cloned().collect();
+                messages = messages
+                    .iter()
+                    .filter(|m| m.author.id == mention)
+                    .cloned()
+                    .collect();
             }
 
             ensure!(!messages.is_empty(), "error: No messages found to delete.");
@@ -69,8 +61,9 @@ async fn clear(ctx: &Context, msg: &Message) -> CommandResult {
                 msg.channel_id.delete_messages(&ctx.http, &taken).await?;
             }
 
-            let temporary_message =
-                msg.reply(&ctx.http, format!("Cleared {} messages.", messages_len)).await?;
+            let temporary_message = msg
+                .reply(&ctx.http, format!("Cleared {} messages.", messages_len))
+                .await?;
 
             sleep(Duration::from_secs(3)).await;
             temporary_message.delete(&ctx.http).await?;

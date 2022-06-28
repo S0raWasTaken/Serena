@@ -1,12 +1,4 @@
-use std::time::Instant;
-
-use serenity::client::Context;
-use serenity::framework::standard::macros::command;
-use serenity::framework::standard::CommandResult;
-use serenity::model::channel::Message;
-
-use crate::primitives::{commands, ToClapCommand};
-use crate::utils::{get_prefix, handle_result};
+use super::*;
 
 #[command]
 async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
@@ -23,7 +15,9 @@ async fn ping(ctx: &Context, msg: &Message) -> CommandResult {
             let mut new_message = msg.reply(&ctx.http, "Ping?").await?;
 
             new_message
-                .edit(&ctx.http, |m| m.content(format!("Pong! Latency is {:.2?}", time.elapsed())))
+                .edit(&ctx.http, |m| {
+                    m.content(format!("Pong! Latency is {:.2?}", time.elapsed()))
+                })
                 .await?;
             Ok(())
         }

@@ -27,9 +27,11 @@ pub async fn handle_result(
     match res {
         Ok(_) => Ok(()),
         Err(why) => {
-            message.reply_ping(http, why.to_string().to_code_block("yml")).await?;
+            message
+                .reply_ping(http, why.to_string().to_code_block("yml"))
+                .await?;
             Err(why)
-        },
+        }
     }
 }
 

@@ -1,10 +1,10 @@
 #![warn(clippy::pedantic)]
-
+#![allow(clippy::wildcard_imports, clippy::unreadable_literal)]
 use std::collections::HashSet;
 use std::env::var;
 
 use dotenv::dotenv;
-use groups::{GENERAL_GROUP, UTIL_GROUP};
+use groups::{GENERAL_GROUP, MODERATION_GROUP, UTIL_GROUP};
 use handler::Handler;
 use primitives::{ErrorBox, Prefixes, DEFAULT_PREFIX};
 use rustbreak::FileDatabase;
@@ -35,7 +35,7 @@ async fn main() -> ErrorBox<()> {
                 Ok(bot_id) => (owners, bot_id.id),
                 Err(why) => exit!(1, "Could not access the bot id: {:?}", why),
             }
-        },
+        }
         Err(why) => exit!(2, "No app info:\n{:?}", why),
     };
 
@@ -66,6 +66,7 @@ async fn main() -> ErrorBox<()> {
                 })
         })
         .group(&GENERAL_GROUP)
+        .group(&MODERATION_GROUP)
         .group(&UTIL_GROUP);
 
     let mut client = Client::builder(&token)
@@ -76,7 +77,9 @@ async fn main() -> ErrorBox<()> {
 
     {
         let mut data = client.data.write().await;
-        data.insert::<Prefixes>(FileDatabase::load_from_path_or_default("./guild_prefixes.yml")?);
+        data.insert::<Prefixes>(FileDatabase::load_from_path_or_default(
+            "./guild_prefixes.yml",
+        )?);
     }
 
     client.start().await?;
