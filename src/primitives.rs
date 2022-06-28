@@ -1,6 +1,9 @@
-use std::{collections::BTreeMap, error::Error};
+use std::collections::BTreeMap;
+use std::error::Error;
 
-use rustbreak::{backend::FileBackend, deser::Yaml, Database};
+use rustbreak::backend::FileBackend;
+use rustbreak::deser::Yaml;
+use rustbreak::Database;
 use serenity::prelude::TypeMapKey;
 
 pub const DEFAULT_PREFIX: &str = "sudo";
@@ -24,11 +27,7 @@ pub trait ToClapCommand {
 
 impl ToClapCommand for String {
     fn to_clap_command(&self, prefix: String) -> Vec<String> {
-        self.replace(&prefix, "")
-            .trim()
-            .split(' ')
-            .map(ToString::to_string)
-            .collect()
+        self.replace(&prefix, "").trim().split(' ').map(ToString::to_string).collect()
     }
 }
 
@@ -65,10 +64,7 @@ pub mod commands {
                     .takes_value(true)
                     .index(1)
                     .help("The new prefix to swap for"),
-                Arg::new("show")
-                    .help("Shows the current prefix")
-                    .long("show")
-                    .short('s'),
+                Arg::new("show").help("Shows the current prefix").long("show").short('s'),
             ])
     }
 
@@ -77,13 +73,11 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Kicks a member from the guild.")
-            .args([
-                Arg::new("@Mention")
+            .args([Arg::new("@Mention")
                 .required(true)
                 .index(1)
-                .help("The member that may be kicked.")
-              ])
-  }
+                .help("The member that may be kicked.")])
+    }
 
     pub fn clear() -> Command<'static> {
         Command::new("NAME: clear")

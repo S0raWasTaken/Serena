@@ -1,11 +1,9 @@
 use std::sync::Arc;
 
-use serenity::{
-    framework::standard::CommandResult,
-    http::Http,
-    model::channel::Message,
-    prelude::{RwLock, TypeMap},
-};
+use serenity::framework::standard::CommandResult;
+use serenity::http::Http;
+use serenity::model::channel::Message;
+use serenity::prelude::{RwLock, TypeMap};
 
 use crate::primitives::{Prefixes, ToCodeBlock, DEFAULT_PREFIX};
 
@@ -29,11 +27,9 @@ pub async fn handle_result(
     match res {
         Ok(_) => Ok(()),
         Err(why) => {
-            message
-                .reply_ping(http, why.to_string().to_code_block("yml"))
-                .await?;
+            message.reply_ping(http, why.to_string().to_code_block("yml")).await?;
             Err(why)
-        }
+        },
     }
 }
 

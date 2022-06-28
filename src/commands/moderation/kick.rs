@@ -1,13 +1,11 @@
+use serenity::client::Context;
+use serenity::framework::standard::macros::command;
+use serenity::framework::standard::CommandResult;
+use serenity::model::channel::Message;
+use serenity::utils::parse_mention;
+
 use crate::primitives::{commands, ToClapCommand};
-
 use crate::utils::{get_prefix, handle_result};
-
-use serenity::{
-    client::Context,
-    framework::standard::{macros::command, CommandResult},
-    model::{channel::Message},
-    utils::parse_mention,
-};
 
 #[command]
 #[only_in(guilds)]
@@ -29,25 +27,16 @@ async fn kick(ctx: &Context, msg: &Message) -> CommandResult {
                     Some(mention) => {
                         guild_id.kick(&ctx.http, mention).await?;
                         msg.reply(&ctx, "The user has been kicked.").await?;
-                    } 
+                    },
                     None => {
                         msg.reply(&ctx, "Something went wrong, try again later.").await?;
-                    }
+                    },
                 }
             }
 
             Ok(())
         }
-        .await
+        .await,
     )
     .await
 }
-
-
-
-
-
-
-
-
-

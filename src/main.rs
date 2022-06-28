@@ -1,22 +1,22 @@
 #![warn(clippy::pedantic)]
 
+use std::collections::HashSet;
+use std::env::var;
+
 use dotenv::dotenv;
 use groups::{GENERAL_GROUP, UTIL_GROUP};
 use handler::Handler;
 use primitives::{ErrorBox, Prefixes, DEFAULT_PREFIX};
 use rustbreak::FileDatabase;
-use serenity::{framework::StandardFramework, http::Http, Client};
-
-use std::{collections::HashSet, env::var};
+use serenity::framework::StandardFramework;
+use serenity::http::Http;
+use serenity::Client;
 
 mod commands;
 mod groups;
 mod handler;
 mod primitives;
 mod utils;
-
-#[cfg(test)]
-mod tests;
 
 #[tokio::main]
 async fn main() -> ErrorBox<()> {
@@ -35,7 +35,7 @@ async fn main() -> ErrorBox<()> {
                 Ok(bot_id) => (owners, bot_id.id),
                 Err(why) => exit!(1, "Could not access the bot id: {:?}", why),
             }
-        }
+        },
         Err(why) => exit!(2, "No app info:\n{:?}", why),
     };
 
@@ -76,9 +76,7 @@ async fn main() -> ErrorBox<()> {
 
     {
         let mut data = client.data.write().await;
-        data.insert::<Prefixes>(FileDatabase::load_from_path_or_default(
-            "./guild_prefixes.yml",
-        )?);
+        data.insert::<Prefixes>(FileDatabase::load_from_path_or_default("./guild_prefixes.yml")?);
     }
 
     client.start().await?;
