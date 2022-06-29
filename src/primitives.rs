@@ -116,6 +116,19 @@ pub mod commands {
             ])
     }
 
+    pub fn unban() -> Command<'static> {
+        Command::new("NAME: unban")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Unbans a member from the guild.")
+            .args([
+                Arg::new("ID")
+                    .required(true)
+                    .index(1)
+                    .help("The user's that may be banned ID.")
+            ])
+    }
+
     pub fn clear() -> Command<'static> {
         Command::new("NAME: clear")
             .disable_colored_help(true)
