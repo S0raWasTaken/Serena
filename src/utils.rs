@@ -1,3 +1,4 @@
+use std::future::Future;
 use std::sync::Arc;
 
 use serenity::framework::standard::CommandResult;
@@ -22,9 +23,9 @@ pub async fn get_prefix(data: Arc<RwLock<TypeMap>>, guild_id: u64) -> String {
 pub async fn handle_result(
     message: &Message,
     http: &Arc<Http>,
-    res: CommandResult,
+    res: impl Future<Output = CommandResult>,
 ) -> CommandResult {
-    match res {
+    match res.await {
         Ok(_) => Ok(()),
         Err(why) => {
             message

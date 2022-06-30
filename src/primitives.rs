@@ -121,12 +121,10 @@ pub mod commands {
             .disable_colored_help(true)
             .disable_version_flag(true)
             .about("\nABOUT: Unbans a member from the guild.")
-            .args([
-                Arg::new("ID")
-                    .required(true)
-                    .index(1)
-                    .help("The user's that may be banned ID.")
-            ])
+            .args([Arg::new("ID")
+                .required(true)
+                .index(1)
+                .help("The user's that may be banned ID.")])
     }
 
     pub fn clear() -> Command<'static> {
