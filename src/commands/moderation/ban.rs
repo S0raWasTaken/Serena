@@ -38,7 +38,11 @@ async fn ban(ctx: &Context, msg: &Message) -> CommandResult {
             &ctx.http,
             format!(
                 "{} was banned!",
-                UserId::from(mention).to_user(&ctx.http).await?.tag()
+                if let Ok(user) = UserId::from(mention).to_user(&ctx.http).await {
+                    user.tag()
+                } else {
+                    mention.to_string()
+                }
             ),
         )
         .await?;

@@ -11,15 +11,19 @@ async fn unban(ctx: &Context, msg: &Message) -> CommandResult {
 
         let matches = command.try_get_matches_from(msg.content.to_clap_command(prefix))?;
 
-        let id = parse_mention(matches.value_of("ID").unwrap()).ok_or("Invalid mention/ID")?;
+        let mention = parse_mention(matches.value_of("ID").unwrap()).ok_or("Invalid mention/ID")?;
 
-        guild_id.unban(&ctx.http, id).await?;
+        guild_id.unban(&ctx.http, mention).await?;
 
         msg.reply_ping(
             &ctx,
             format!(
-                "{} was unbaned.",
-                UserId::from(id).to_user(&ctx.http).await?.tag()
+                "{} was unbanned.",
+                if let Ok(user) = UserId::from(mention).to_user(&ctx.http).await {
+                    user.tag()
+                } else {
+                    mention.to_string()
+                }
             ),
         )
         .await?;
