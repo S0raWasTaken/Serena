@@ -1,8 +1,6 @@
-use serenity::{
-    async_trait,
-    client::{Context, EventHandler},
-    model::prelude::Ready,
-};
+use serenity::async_trait;
+use serenity::client::{Context, EventHandler};
+use serenity::model::prelude::Ready;
 
 pub struct Handler;
 

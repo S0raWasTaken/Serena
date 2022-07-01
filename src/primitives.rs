@@ -1,6 +1,9 @@
-use std::{collections::BTreeMap, error::Error};
+use std::collections::BTreeMap;
+use std::error::Error;
 
-use rustbreak::{backend::FileBackend, deser::Yaml, Database};
+use rustbreak::backend::FileBackend;
+use rustbreak::deser::Yaml;
+use rustbreak::Database;
 use serenity::prelude::TypeMapKey;
 
 pub const DEFAULT_PREFIX: &str = "sudo";
@@ -70,6 +73,58 @@ pub mod commands {
                     .long("show")
                     .short('s'),
             ])
+    }
+
+    pub fn kick() -> Command<'static> {
+        Command::new("NAME: kick")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Kicks a member from the guild.")
+            .args([
+                Arg::new("@mention/ID")
+                    .required(true)
+                    .index(1)
+                    .help("The user that may be kicked."),
+                Arg::new("reason")
+                    .required(false)
+                    .multiple_values(true)
+                    .index(2)
+                    .help("The reason for the kick."),
+            ])
+    }
+
+    pub fn ban() -> Command<'static> {
+        Command::new("NAME: ban")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Bans a member from the guild.")
+            .args([
+                Arg::new("@mention/ID")
+                    .required(true)
+                    .index(1)
+                    .help("The user that may be banned."),
+                Arg::new("reason")
+                    .index(2)
+                    .multiple_values(true)
+                    .help("The reason for the ban."),
+                Arg::new("delete-messages")
+                    .long("delete-messages")
+                    .short('d')
+                    .takes_value(true)
+                    .validator(|v| v.parse::<u8>().map_err(|_| "Not a valid number"))
+                    .help("Select a number of days to delete messages."),
+            ])
+    }
+
+    pub fn unban() -> Command<'static> {
+        Command::new("NAME: unban")
+            .disable_colored_help(true)
+            .disable_version_flag(true)
+            .about("\nABOUT: Unbans a member from the guild.")
+            .args([Arg::new("ID")
+                .required(true)
+                .index(1)
+                .help("The user's that may be banned ID.")])
     }
 
     pub fn clear() -> Command<'static> {

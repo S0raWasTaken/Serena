@@ -1,11 +1,10 @@
+use std::future::Future;
 use std::sync::Arc;
 
-use serenity::{
-    framework::standard::CommandResult,
-    http::Http,
-    model::channel::Message,
-    prelude::{RwLock, TypeMap},
-};
+use serenity::framework::standard::CommandResult;
+use serenity::http::Http;
+use serenity::model::channel::Message;
+use serenity::prelude::{RwLock, TypeMap};
 
 use crate::primitives::{Prefixes, ToCodeBlock, DEFAULT_PREFIX};
 
@@ -24,9 +23,9 @@ pub async fn get_prefix(data: Arc<RwLock<TypeMap>>, guild_id: u64) -> String {
 pub async fn handle_result(
     message: &Message,
     http: &Arc<Http>,
-    res: CommandResult,
+    res: impl Future<Output = CommandResult>,
 ) -> CommandResult {
-    match res {
+    match res.await {
         Ok(_) => Ok(()),
         Err(why) => {
             message
