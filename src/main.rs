@@ -1,16 +1,14 @@
 #![warn(clippy::pedantic)]
 #![allow(clippy::wildcard_imports, clippy::unreadable_literal)]
-use std::collections::HashSet;
-use std::env::var;
+use std::{collections::HashSet, env::var};
 
 use dotenv::dotenv;
 use groups::{GENERAL_GROUP, MODERATION_GROUP, UTIL_GROUP};
 use handler::Handler;
 use primitives::{ErrorBox, Prefixes, DEFAULT_PREFIX};
 use rustbreak::FileDatabase;
-use serenity::framework::StandardFramework;
-use serenity::http::Http;
-use serenity::Client;
+use serenity::{framework::StandardFramework, http::Http, Client};
+use utils::handle_result;
 
 mod commands;
 mod groups;
@@ -65,6 +63,7 @@ async fn main() -> ErrorBox<()> {
                     })
                 })
         })
+        .after(handle_result)
         .group(&GENERAL_GROUP)
         .group(&MODERATION_GROUP)
         .group(&UTIL_GROUP);

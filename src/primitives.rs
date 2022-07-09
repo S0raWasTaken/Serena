@@ -1,9 +1,6 @@
-use std::collections::BTreeMap;
-use std::error::Error;
+use std::{collections::BTreeMap, error::Error};
 
-use rustbreak::backend::FileBackend;
-use rustbreak::deser::Yaml;
-use rustbreak::Database;
+use rustbreak::{backend::FileBackend, deser::Yaml, Database};
 use serenity::prelude::TypeMapKey;
 
 pub const DEFAULT_PREFIX: &str = "sudo";
